@@ -1,7 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { useDispatch, useSelector, TypedUseSelectorHook } from 'react-redux'
-import rootMiddleware from './rootMiddleware'
-import rootReducer from './rootReducer'
+import rootReducer from './reducers/rootReducer'
 
 export type ApplicationState = ReturnType<typeof rootReducer>
 

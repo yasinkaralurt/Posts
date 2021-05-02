@@ -12,8 +12,8 @@ export enum PublicRoutes {
 }
 
 export enum PrivateRoutes {
-    Home = 'Home',
-    Settings = 'Settings',
+    Home = 'HomeScreen',
+    PostDetail = 'PostDetailScreen',
 }
 
 export type MainStackParamList = {
@@ -30,7 +30,7 @@ export type PublicStackParamList = {
 
 export type PrivateStackParamList = {
     [PrivateRoutes.Home]: undefined
-    [PrivateRoutes.Settings]: undefined
+    [PrivateRoutes.PostDetail]: undefined
 }
 
 export const MainStack = createStackNavigator<MainStackParamList>()

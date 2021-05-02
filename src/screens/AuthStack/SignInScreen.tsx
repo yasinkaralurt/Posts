@@ -1,14 +1,13 @@
 import React, { useCallback, useState } from 'react'
 import { View, StyleSheet, Keyboard, ActivityIndicator } from 'react-native'
 import { useReduxDispatch, useReduxSelector } from '../../store'
-import { getErrorMessage, getLoading, setError, signinAsync } from '../../store/actions/user'
+import { getErrorMessage, getLoading, setError, signinAsync } from '../../store/reducers/user'
 import BaseTextInput from "../../components/base/BaseTextInput";
 import BaseButton from "../../components/base/BaseButton";
 import { GetTranslation, TranslationKey } from '../../utils/TranslateHelper'
 import { useFocusEffect } from '@react-navigation/native'
 import ConstantColors from '../../constants/ConstantColors';
-import LoadingHOC from '../../components/LoadingHOC';
-const LoadingView = LoadingHOC(View);
+import { LoadingView } from '../../components/base/LoadingHOC';
 
 
 const SignInScreen = (): React.ReactElement => {

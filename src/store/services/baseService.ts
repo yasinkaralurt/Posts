@@ -23,7 +23,6 @@ export default class BaseService {
 
   async get(funcName: string, query?: any) {
     var url = this.apiURL + funcName + "?" + (query ? query : "");
-    console.log(url);
 
     return fetch(url, {
       method: 'GET',
@@ -32,7 +31,6 @@ export default class BaseService {
         'Content-Type': 'application/json',
       },
     }).then(response => {
-      console.log(response)
       return response.json()
     }
     )
