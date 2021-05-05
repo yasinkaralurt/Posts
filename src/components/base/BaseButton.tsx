@@ -26,7 +26,7 @@ const BaseButton = (props: BaseButtonProps) => {
 
             {props.leftIcon && props.leftIcon}
 
-            <Text style={[styles.textStyle, props.textStyle]} ellipsizeMode={'tail'} numberOfLines={2} {...props.labelProps} >{props.label || GetTranslation(TranslationKey.Button.Continue)}</Text>
+            <Text style={[styles.textStyle, props.textStyle]} ellipsizeMode={'tail'} numberOfLines={2} {...props.labelProps} >{props.label}</Text>
 
             {props.rightIcon && props.rightIcon}
 

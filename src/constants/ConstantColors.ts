@@ -9,4 +9,5 @@ export default {
   PlaceHolder: '#828282',
   Error: '#f5160f',
   Gray: '#d8d8d8',
+  Button: '#4A4AFF',
 };
