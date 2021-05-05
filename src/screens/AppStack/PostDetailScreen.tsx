@@ -1,19 +1,17 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Text, StyleSheet } from 'react-native'
-import { PrivateNavigationProp } from '../../navigation/types'
-import { PrivateRoutes } from '../../navigation/routes'
 import ApiService from '../../store/services/ApiService'
 import { ShowDefaultMessage } from "../../utils/AlertHelper";
 import { GetTranslation, TranslationKey } from '../../utils/TranslateHelper'
 import CommentItem from '../../components/post/CommentItem'
 import { LoadingScroll } from '../../components/base/LoadingHOC'
 import Header from "../../components/Header";
-
-type PostDetailScreenProps = { navigation: PrivateNavigationProp<PrivateRoutes.PostDetail> }
+import { View } from '../../components/base/Themed'
 
 const PostDetailScreen = ({ navigation, route }): React.ReactElement => {
 
     var postId = route?.params.data
+    const [user, setUser] = useState(null)
     const [post, setPost] = useState(null)
     const [commentList, setCommentList] = useState([])
     const [loading, setLoading] = useState(false)
@@ -24,13 +22,24 @@ const PostDetailScreen = ({ navigation, route }): React.ReactElement => {
             .finally(() => setLoading(false))
     }, [])
 
-    const getPost = async () => {
-        await new ApiService().getPost(postId).then(response => {
+
+    const getUser = async (userId) => {
+        new ApiService().getUser(userId).then(response => {
             if (response && Array.isArray(response) && response.length > 0)
-                setPost(response[0])
-            else
-                ShowDefaultMessage({ message: GetTranslation(TranslationKey.Error.NotFound), onPress: () => navigation.goBack() })
+                setUser(response[0])
         })
+    }
+
+    const getPost = async () => {
+        var response = await new ApiService().getPost(postId)
+        if (response && Array.isArray(response) && response.length > 0) {
+            console.log(response[0])
+            setPost(response[0])
+            await getUser(response[0].userId)
+        }
+        else {
+            ShowDefaultMessage({ message: GetTranslation(TranslationKey.Error.NotFound), onPress: () => navigation.goBack() })
+        }
     }
 
     const getComments = async () => {
@@ -42,30 +51,51 @@ const PostDetailScreen = ({ navigation, route }): React.ReactElement => {
         })
     }
 
-    const getPostView = useCallback(() => {
-        if (post)
-            return (
-                <Text style={{ marginVertical: 10 }}>{post.title}</Text>
-            )
+    const header = useMemo(() => {
+        return GetTranslation(TranslationKey.Header.PostDetail)
     }, [post])
+
+    const postInfo = useMemo(() => {
+        if (!post)
+            return null
+        return (
+            <View>
+                <Text style={styles.title}>{post.title}</Text>
+                <Text>{post.body}</Text>
+            </View>
+        )
+    }, [post])
+
+    const commentView = useMemo(() => {
+        return commentList.map((item, index) => <CommentItem key={index} item={item} />)
+    }, [commentList])
 
     return (
         <>
-            <Header navigation={navigation} title={GetTranslation(TranslationKey.Header.PostDetail)} />
+            <Header navigation={navigation} title={header} />
             <LoadingScroll loading={loading} style={styles.container}>
-                {getPostView()}
-                {commentList.map((item, index) => <CommentItem key={index} item={item} />)}
+                {user && <Text style={styles.username}>{user?.username}</Text>}
+                {postInfo}
+                <Text>{GetTranslation(TranslationKey.CommentCount)} : {commentList.length}`</Text>
+                {commentView}
             </LoadingScroll>
         </>
     )
 }
-
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
         padding: 10
+    },
+    username: {
+        fontSize: 16,
+        fontWeight: 'bold'
+    },
+    title: {
+        fontSize: 14,
+        fontWeight: 'bold'
     },
 })
 

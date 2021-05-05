@@ -7,6 +7,7 @@ export function GetTranslation(key) {
 export const TranslationKey = {
 
     Username: 'Username',
+    CommentCount: 'CommentCount',
     Hi: 'Hi',
     Error: {
         "NotFound": 'Error.NotFound'
@@ -16,7 +17,6 @@ export const TranslationKey = {
     },
     Button: {
         SignIn: "SignIn",
-        SignOut: "Button.SignOut",
         OK: "Button.OK",
     },
     Dialog: {

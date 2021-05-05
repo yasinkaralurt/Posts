@@ -6,7 +6,11 @@ export default class ApiService extends BaseService {
         super();
     }
 
-    async getUsers(username: string) {
+    async getUser(id: string,) {
+        return this.get('users', `id=${id}`)
+    }
+
+    async getUserByUsername(username: string,) {
         return this.get('users', `username=${username}`)
     }
 

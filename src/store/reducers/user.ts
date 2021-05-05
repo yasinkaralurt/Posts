@@ -10,7 +10,7 @@ import ApiService from "../services/ApiService";
 export const signinAsync = createAsyncThunk(
     'signin',
     async (username: string) => {
-        const response = await new ApiService().getUsers(username).catch(e => console.log(e))
+        const response = await new ApiService().getUserByUsername(username).catch(e => console.log(e))
         if (response && Array.isArray(response) && response.length > 0)
             return response[0]
         throw new Error(GetTranslation(TranslationKey.Error.NotFound));
@@ -57,7 +57,7 @@ const userSlice = createSlice({
 
 })
 
-export const getUser = (state: ApplicationState): boolean => state.auth.user
+export const getUser = (state: ApplicationState): any => state.auth.user
 export const getErrorMessage = (state: ApplicationState): string => state.auth.errorMessage
 export const getLoading = (state: ApplicationState): boolean => state.auth.loading
 export const { signOut, setError } = userSlice.actions;

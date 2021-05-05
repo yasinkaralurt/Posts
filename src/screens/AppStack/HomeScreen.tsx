@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Text, StyleSheet, Button } from 'react-native'
 import { PrivateNavigationProp } from '../../navigation/types'
 import { PrivateRoutes } from '../../navigation/routes'
@@ -32,13 +32,21 @@ const HomeScreen = ({ navigation }: HomeScreenProps): React.ReactElement => {
         }).finally(() => setLoading(false))
     }
 
+    const welcomeText = useMemo(() => {
+        return `${GetTranslation(TranslationKey.Hi)} ${user?.name}!`
+    }, [user])
+
+    const postListView = useMemo(() => {
+        return postList.map((item, index) => <PostItem navigation={navigation} key={index} item={item} />)
+    }, [postList])
+
     return (
         <LoadingScroll loading={loading} style={styles.container}>
             <View style={{ alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between' }}>
-                <Text>{GetTranslation(TranslationKey.Hi)} {user?.name}!</Text>
+                <Text style={styles.welcome}>{welcomeText}</Text>
                 <IconLogout onPress={() => logoutHandler()} />
             </View>
-            {postList.map((item, index) => <PostItem navigation={navigation} key={index} item={item} />)}
+            {postListView}
         </LoadingScroll>
     )
 }
@@ -49,6 +57,10 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
     },
+    welcome: {
+        fontSize: 18,
+        fontWeight: '700'
+    }
 })
 
 export default HomeScreen
