@@ -4,12 +4,17 @@ import { Provider } from 'react-redux';
 import { DarkTheme, DefaultTheme, NavigationContainer } from '@react-navigation/native';
 import store from './src/store';
 import MainNavigation from './src/navigation/MainNavigation';
-
+import Api from './src/store/services/Api';
+import HttpClient from "./src/store/services/HttpClient";
 
 const App = () => {
 
     const colorScheme = useColorScheme();
 
+    if (!Api.isSettedUp) {
+        Api.setup(HttpClient.instance.axios);
+    }
+    
     var customTheme = colorScheme === 'dark' ? DarkTheme : DefaultTheme;
     const appTheme = { ...customTheme, colors: { ...customTheme.colors, background: '#fff' } }
 

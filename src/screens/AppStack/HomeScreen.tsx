@@ -5,11 +5,11 @@ import { PrivateRoutes } from '../../navigation/routes'
 import { useReduxDispatch, useReduxSelector } from '../../store'
 import { getUser, signOut } from '../../store/reducers/user'
 import { GetTranslation, TranslationKey } from '../../utils/TranslateHelper'
-import ApiService from '../../store/services/ApiService'
 import PostItem from '../../components/post/PostItem'
 import { LoadingScroll } from '../../components/base/LoadingHOC'
 import { View } from '../../components/base/Themed'
 import IconLogout from "../../components/IconLogout";
+import Api from '../../store/services/Api'
 
 type HomeScreenProps = { navigation: PrivateNavigationProp<PrivateRoutes.Home> }
 
@@ -26,8 +26,8 @@ const HomeScreen = ({ navigation }: HomeScreenProps): React.ReactElement => {
 
     const getPosts = async () => {
         setLoading(true)
-        new ApiService().getPosts(user.id).then(response => {
-            var list = response.map((item) => { return { id: item.id, title: item.title } })
+        Api.getPosts(user.id).then((response) => {
+            var list = response.data.map((item) => { return { id: item.id, title: item.title } })
             setPostList(list)
         }).finally(() => setLoading(false))
     }

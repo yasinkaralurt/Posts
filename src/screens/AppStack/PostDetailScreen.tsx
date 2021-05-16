@@ -1,12 +1,12 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { Text, StyleSheet } from 'react-native'
-import ApiService from '../../store/services/ApiService'
 import { ShowDefaultMessage } from "../../utils/AlertHelper";
 import { GetTranslation, TranslationKey } from '../../utils/TranslateHelper'
 import CommentItem from '../../components/post/CommentItem'
 import { LoadingScroll } from '../../components/base/LoadingHOC'
 import Header from "../../components/Header";
 import { View } from '../../components/base/Themed'
+import Api from '../../store/services/Api';
 
 const PostDetailScreen = ({ navigation, route }): React.ReactElement => {
 
@@ -24,18 +24,18 @@ const PostDetailScreen = ({ navigation, route }): React.ReactElement => {
 
 
     const getUser = async (userId) => {
-        new ApiService().getUser(userId).then(response => {
+        Api.getUser(userId).then(response => {
             if (response && Array.isArray(response) && response.length > 0)
                 setUser(response[0])
         })
     }
 
     const getPost = async () => {
-        var response = await new ApiService().getPost(postId)
-        if (response && Array.isArray(response) && response.length > 0) {
-            console.log(response[0])
-            setPost(response[0])
-            await getUser(response[0].userId)
+        var response = await Api.getPost(postId)
+        var data = response.data
+        if (Array.isArray(data) && data.length > 0) {
+            setPost(data[0])
+            await getUser(data[0].userId)
         }
         else {
             ShowDefaultMessage({ message: GetTranslation(TranslationKey.Error.NotFound), onPress: () => navigation.goBack() })
@@ -43,9 +43,10 @@ const PostDetailScreen = ({ navigation, route }): React.ReactElement => {
     }
 
     const getComments = async () => {
-        await new ApiService().getComments(postId).then(response => {
-            if (response && Array.isArray(response))
-                setCommentList(response)
+        Api.getComments(postId).then(response => {
+            var data = response.data
+            if (Array.isArray(data))
+                setCommentList(data)
             else
                 ShowDefaultMessage({ message: GetTranslation(TranslationKey.Error.NotFound), onPress: () => navigation.goBack() })
         })

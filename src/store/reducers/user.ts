@@ -4,16 +4,20 @@ import { GetTranslation, TranslationKey } from '../../utils/TranslateHelper';
 import { ApplicationState } from '../index'
 // import { createAccount, login } from '../../mock/mockUser'
 // import { setRunning } from './appState'
-import ApiService from "../services/ApiService";
+import Api from "../services/Api";
 
 
 export const signinAsync = createAsyncThunk(
     'signin',
     async (username: string) => {
-        const response = await new ApiService().getUserByUsername(username).catch(e => console.log(e))
-        if (response && Array.isArray(response) && response.length > 0)
-            return response[0]
-        throw new Error(GetTranslation(TranslationKey.Error.NotFound));
+        return await Api.getUserByUsername(username)
+            .then(response => {
+                var data = response.data
+                if (Array.isArray(data) && data.length > 0)
+                    return data[0]
+                throw new Error(GetTranslation(TranslationKey.Error.NotFound));
+            })
+            .catch(e => console.log(e))
     }
 );
 
