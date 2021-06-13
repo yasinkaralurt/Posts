@@ -1,12 +1,12 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { Text, StyleSheet } from 'react-native'
-import { ShowDefaultMessage } from "../../utils/AlertHelper";
-import { GetTranslation, TranslationKey } from '../../utils/TranslateHelper'
+import { Text, StyleSheet, ScrollView } from 'react-native'
+import { ShowDefaultMessage } from "../../utils/helpers/AlertHelper";
+import { GetTranslation, TranslationKey } from '../../utils/helpers/TranslateHelper'
 import CommentItem from '../../components/post/CommentItem'
-import { LoadingScroll } from '../../components/base/LoadingHOC'
 import Header from "../../components/Header";
 import { View } from '../../components/base/Themed'
 import Api from '../../store/services/Api';
+import { hideHud, showHud } from '../../components/hud/HudHelper';
 
 const PostDetailScreen = ({ navigation, route }): React.ReactElement => {
 
@@ -14,12 +14,11 @@ const PostDetailScreen = ({ navigation, route }): React.ReactElement => {
     const [user, setUser] = useState(null)
     const [post, setPost] = useState(null)
     const [commentList, setCommentList] = useState([])
-    const [loading, setLoading] = useState(false)
 
     useEffect(() => {
-        setLoading(true)
+        showHud()
         Promise.all([getPost(), getComments()])
-            .finally(() => setLoading(false))
+            .finally(hideHud)
     }, [])
 
 
@@ -74,12 +73,12 @@ const PostDetailScreen = ({ navigation, route }): React.ReactElement => {
     return (
         <>
             <Header navigation={navigation} title={header} />
-            <LoadingScroll loading={loading} style={styles.container}>
+            <ScrollView style={styles.container}>
                 {user && <Text style={styles.username}>{user?.username}</Text>}
                 {postInfo}
                 <Text>{GetTranslation(TranslationKey.CommentCount)} : {commentList.length}`</Text>
                 {commentView}
-            </LoadingScroll>
+            </ScrollView>
         </>
     )
 }

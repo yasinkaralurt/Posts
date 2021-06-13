@@ -1,8 +1,7 @@
 import React from "react";
 import { StyleSheet } from "react-native";
 import { Text, TextProps, TouchableOpacity, TouchableOpacityProps, ViewProps, ViewStyle } from "./Themed";
-import { GetTranslation, TranslationKey } from "../../utils/TranslateHelper";
-import ConstantColors from "../../constants/ConstantColors";
+import ConstantColors from "../../utils/constants/ConstantColors";
 import { BaseLabelProps } from "./BaseLabel";
 
 const BUTTON_HEIGHT = 48

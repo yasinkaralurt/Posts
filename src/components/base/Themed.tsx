@@ -10,9 +10,9 @@ import {
   useColorScheme,
 } from 'react-native';
 
-import ConstantColors from "../../constants/ConstantColors";
+import ConstantColors from "../../utils/constants/ConstantColors";
 
-import FontFamily from '../../constants/FontFamily';
+import FontFamily from '../../utils/constants/FontFamily';
 
 const ThemeColors={
   light: {

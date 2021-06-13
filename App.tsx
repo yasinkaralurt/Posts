@@ -1,51 +1,26 @@
-import React, { useEffect } from 'react';
-import { StyleSheet, useColorScheme, } from 'react-native';
+import React from 'react';
+import { useColorScheme, } from 'react-native';
 import { Provider } from 'react-redux';
-import { DarkTheme, DefaultTheme, NavigationContainer } from '@react-navigation/native';
 import store from './src/store';
 import MainNavigation from './src/navigation/MainNavigation';
 import Api from './src/store/services/Api';
 import HttpClient from "./src/store/services/HttpClient";
-
+import Hud from "./src/components/hud";
+import { hudRef } from "./src/components/hud/HudHelper";
 const App = () => {
 
-    const colorScheme = useColorScheme();
-
-    if (!Api.isSettedUp) {
+    if (!Api.isSet) {
         Api.setup(HttpClient.instance.axios);
     }
-    
-    var customTheme = colorScheme === 'dark' ? DarkTheme : DefaultTheme;
-    const appTheme = { ...customTheme, colors: { ...customTheme.colors, background: '#fff' } }
 
     return (
         <Provider store={store}>
-            {/* <SafeAreaProvider> */}
             <MainNavigation />
-            {/* <StatusBar /> */}
-            {/* </SafeAreaProvider> */}
+            <Hud ref={hudRef} />
         </Provider>
     );
 
 };
 
-const styles = StyleSheet.create({
-    sectionContainer: {
-        marginTop: 32,
-        paddingHorizontal: 24,
-    },
-    sectionTitle: {
-        fontSize: 24,
-        fontWeight: '600',
-    },
-    sectionDescription: {
-        marginTop: 8,
-        fontSize: 18,
-        fontWeight: '400',
-    },
-    highlight: {
-        fontWeight: '700',
-    },
-});
 
 export default App;

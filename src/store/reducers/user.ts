@@ -1,9 +1,7 @@
 /* eslint-disable no-param-reassign */
-import { createAction, createAsyncThunk, createReducer, createSlice, Middleware, PayloadAction } from '@reduxjs/toolkit'
-import { GetTranslation, TranslationKey } from '../../utils/TranslateHelper';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { GetTranslation, TranslationKey } from '../../utils/helpers/TranslateHelper';
 import { ApplicationState } from '../index'
-// import { createAccount, login } from '../../mock/mockUser'
-// import { setRunning } from './appState'
 import Api from "../services/Api";
 
 

@@ -17,7 +17,7 @@ const SplashScreen = ({ navigation }: SplashScreenProps): React.ReactElement => 
         useCallback(() => {
             const navigationTimer = setTimeout(() => {
                 navigate()
-            }, 500)
+            }, 200)
 
             return (): void => clearTimeout(navigationTimer)
         }, [navigate]),

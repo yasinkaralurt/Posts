@@ -1,6 +1,6 @@
 import * as React from 'react';
-import ConstantColors from '../../constants/ConstantColors';
-import ConstantStyles from '../../constants/ConstantStyles';
+import ConstantColors from '../../utils/constants/ConstantColors';
+import ConstantStyles from '../../utils/constants/ConstantStyles';
 
 import { Text, TextProps } from './Themed';
 

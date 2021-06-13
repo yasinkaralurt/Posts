@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
 import { TextInput, View, TextInputProps, TextProps, ViewProps, Text } from "./Themed";
-import ConstantColors from "../../constants/ConstantColors";
-import ConstantStyles from "../../constants/ConstantStyles";
+import ConstantColors from "../../utils/constants/ConstantColors";
+import ConstantStyles from "../../utils/constants/ConstantStyles";
 import { BaseLabel, BaseLabelProps } from "./BaseLabel";
 
 type InputType = {
